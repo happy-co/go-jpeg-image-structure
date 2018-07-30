@@ -329,9 +329,12 @@ func (sl *SegmentList) Exif() (rootIfd *exif.Ifd, data []byte, err error) {
 
 	rawExif := s.Data[len(ExifPrefix):]
 
+	im, err := exif.NewIfdMappingWithStandard()
+	log.PanicIf(err)
+
 	ti := exif.NewTagIndex()
 
-	_, index, err := exif.Collect(ti, rawExif)
+	_, index, err := exif.Collect(im, ti, rawExif)
 	log.PanicIf(err)
 
 	return index.RootIfd, rawExif, nil

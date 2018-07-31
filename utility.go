@@ -90,9 +90,7 @@ func ParseExifData(exifData []byte) (rootIfd *exif.Ifd, err error) {
 		}
 	}()
 
-	im, err := exif.NewIfdMappingWithStandard()
-	log.PanicIf(err)
-
+	im := exif.NewIfdMappingWithStandard()
 	ti := exif.NewTagIndex()
 
 	_, index, err := exif.Collect(im, ti, exifData)

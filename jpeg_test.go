@@ -279,15 +279,13 @@ func Test_SegmentList_SetExif(t *testing.T) {
 
 	sl := NewSegmentList(initialSegments)
 
-	im, err := exif.NewIfdMappingWithStandard()
-	log.PanicIf(err)
-
+	im := exif.NewIfdMappingWithStandard()
 	ti := exif.NewTagIndex()
 
 	ib := exif.NewIfdBuilder(im, ti, exif.IfdPathStandard, exif.TestDefaultByteOrder)
 	ib.AddStandardWithName("ProcessingSoftware", "some software")
 
-	err = sl.SetExif(ib)
+	err := sl.SetExif(ib)
 	log.PanicIf(err)
 
 	exifSegment := sl.Segments()[2]

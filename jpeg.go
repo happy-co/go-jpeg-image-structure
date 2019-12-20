@@ -356,7 +356,7 @@ func (sl *SegmentList) ConstructExifBuilder() (rootIb *exif.IfdBuilder, err erro
 	rootIfd, data, err := sl.Exif()
 	log.PanicIf(err)
 
-	itevr := exif.NewIfdTagEntryValueResolver(data[len(ExifPrefix):], rootIfd.ByteOrder)
+	itevr := exif.NewIfdTagEntryValueResolver(data, rootIfd.ByteOrder)
 	ib := exif.NewIfdBuilderFromExistingChain(rootIfd, itevr)
 
 	return ib, nil

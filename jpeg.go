@@ -3,12 +3,11 @@ package jpegstructure
 import (
 	"bufio"
 	"bytes"
-	"fmt"
-	"io"
-
 	"crypto/sha1"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
+	"io"
 
 	"github.com/dsoprea/go-exif"
 	"github.com/dsoprea/go-logging"
@@ -411,9 +410,11 @@ func (sl *SegmentList) SetExif(ib *exif.IfdBuilder) (err error) {
 		// Install it near the beginning where we know it's safe. We can't
 		// insert it after the EOI segment, and there might be more than one
 		// depending on implementation and/or lax adherence to the standard.
-		tail := sl.segments[1:]
-		sl.segments = append(sl.segments[:1], s)
-		sl.segments = append(sl.segments, tail...)
+		if len(sl.segments) == 0 {
+			sl.segments = []*Segment{s}
+		} else {
+			sl.segments = append([]*Segment{sl.segments[0], s}, sl.segments[1:]...)
+		}
 	}
 
 	err = s.SetExif(ib)
